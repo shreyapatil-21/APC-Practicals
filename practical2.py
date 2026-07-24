@@ -91,7 +91,8 @@ else:
     print("Not Leap Year!")
 
     
-#10.whether the driver is insured or not
+#10.whether the driver is insured or not
+
 print("\nwhether the driver is insured or not")
 Gender=input("Enter Gender [Male/Female/Other]:")
 status=input("Enter Married Status [Married/Unmarried]:")
@@ -186,22 +187,70 @@ while(i<=n):
     i+=1
 
     
-#8.program to to check entered number is prime or not
+#8.program to check entered number is prime or not
+print("\n8.program to check entered number is prime or not")
+n = int(input("Enter a number: "))
+i = 2
+while i < n:
+    if n % i == 0:
+        print("Not Prime")
+        break
+    i += 1
+else:
+    print("Prime")
 
-#9.program to to find sum of digits of entered number
+#9.program to find sum of digits of entered number
 print("\n9.program to to find sum of digits of entered number")
 n=int(input("Enter Number:"))
 sum=0
-while(num>0):
-    num%=10
-    sum+=num
+while(num>0): #123
+    n=num%10   #3
+    sum+=n
     num//=10
 print(sum)
-    
-#10.program to to check entered number is palindrome or not
-#11.program to to print Multiplication table
-#12.program to to print largest and smallest number from n numbers
 
+    
+#10.program to check entered number is palindrome or not
+print("\n10.program to to find sum of digits of entered number")
+num=int(input("Enter Number:"))
+original=num
+rev=0
+while(num>0): 
+    n=num%10   
+    rev=rev*10+n
+    num//=10
+if rev==original:
+    print("Number is Palindrome")
+else:
+    print("Number is not Palindrome")
+
+
+#11.program to print Multiplication table
+print("\n10.program to to find sum of digits of entered number")
+num=int(input("Enter Number:"))
+i=1
+while(i<=10):
+    print(i*num,end=" ")
+    i+=1
+
+
+#12.program to print largest and smallest number from n numbers
+print("12. Program to print largest and smallest number from n numbers")
+n = int(input("Enter how many numbers: "))
+num = int(input("Enter number: "))
+largest = smallest = num
+
+i = 1
+while i < n:
+    num = int(input("Enter number: "))
+    if num > largest:
+        largest = num
+    if num < smallest:
+        smallest = num
+    i += 1
+
+print("Largest =", largest)
+print("Smallest =", smallest)
 
 
 
