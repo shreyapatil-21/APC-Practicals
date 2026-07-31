@@ -190,10 +190,135 @@ else:
     print("Substring not found")
 
 
+#20.Count Occurrences of a Word 
+print("Count Occurrences of a Word ")
+sentence = input("Enter a sentence: ")
+word = input("Enter the word: ")
+count = sentence.split().count(word)
+print("Occurrences:", count)
 
 
+#21.Password Validator
+print("21.Password Validator")
+password = input("Enter password: ")
+upper = lower = digit = special = 0
+for ch in password:
+    if ch.isupper():
+        upper = 1
+    elif ch.islower():
+        lower = 1
+    elif ch.isdigit():
+        digit = 1
+    else:
+        special = 1
+
+if len(password) >= 8 and upper and lower and digit and special:
+    print("Valid Password")
+else:
+    print("Invalid Password")
 
 
+print("\n\nString Programs")
 
+#22. Run-Length Encoding
+print("\n22. Run-Length Encoding")
+s = input("Enter string: ")
+count = 1
+for i in range(len(s)):
+    if i < len(s)-1 and s[i] == s[i+1]:
+        count += 1
+    else:
+        print(s[i] + str(count), end="")
+        count = 1
+
+
+#23. String Compression
+print("\n\n23. String Compression")
+s = input("Enter string: ")
+result = ""
+count = 1
+for i in range(len(s)):
+    if i < len(s)-1 and s[i] == s[i+1]:
+        count += 1
+    else:
+        result += s[i] + str(count)
+        count = 1
+if len(result) < len(s):
+    print(result)
+else:
+    print(s)
+
+
+#24. Most Frequent Character
+print("\n24. Most Frequent Character")
+s = input("Enter string: ")
+max = 0
+ch = ""
+for i in s:
+    if s.count(i) > max:
+        max = s.count(i)
+        ch = i
+print(ch)
+
+
+#25. Second Most Frequent Character
+print("\n25. Second Most Frequent Character")
+s = input("Enter string: ")
+first = second = 0
+fchar = schar = ""
+for i in s:
+    c = s.count(i)
+    if c > first:
+        second = first
+        schar = fchar
+        first = c
+        fchar = i
+    elif c > second and i != fchar:
+        second = c
+        schar = i
+print(schar)
+
+
+#26. Caesar Cipher (Encryption)
+print("\n26. Caesar Cipher")
+text = input("Enter text: ")
+key = int(input("Enter key: "))
+for ch in text:
+    print(chr(ord(ch)+key), end="")
+
+
+#27. Email Validator
+print("\n\n27. Email Validator")
+email = input("Enter email: ")
+if "@" in email and "." in email:
+    print("Valid Email")
+else:
+    print("Invalid Email")
+
+
+#28. Word Frequency
+print("\n28. Word Frequency")
+s = input("Enter sentence: ")
+words = s.split()
+for w in words:
+    print(w, ":", words.count(w))
+
+
+#29. Sentence Reversal
+print("\n29. Sentence Reversal")
+s = input("Enter sentence: ")
+words = s.split()
+for i in range(len(words)-1, -1, -1):
+    print(words[i], end=" ")
+
+
+#30. String Rotation
+print("\n\n30. String Rotation")
+s1 = input("Enter first string: ")
+s2 = input("Enter second string: ")
+if len(s1) == len(s2) and s2 in (s1+s1):
+    print("Yes")
+else:
+    print("No")
 
 
