@@ -479,11 +479,11 @@ print("Days Below Average:", below)
 
 #30.Store patient names and ages using lists.
 # Perform:
-# • Add a patient
-# • Delete a patient
-# • Search a patient
-# • Display all patients
-# • Count total patients
+# Add a patient
+# Delete a patient
+# Search a patient
+# Display all patients
+# Count total patients
 
 print("\n\n30. Store patient names and ages.")
 
