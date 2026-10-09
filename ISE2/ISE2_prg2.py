@@ -1,0 +1,10 @@
+import pandas as pd 
+df = pd.read_csv("employee.csv")
+print("All employees data:")
+print(df,"\n\n")
+print("Employees with salary above 30000:")
+print(df[df["Salary"]>30000],"\n\n")
+print("Employees with Experience above 3 years:")
+print(df[df["Experience"]>3],"\n\n")
+print("Employees in IT Department:")
+print(df[df["Department"]=="IT"])
