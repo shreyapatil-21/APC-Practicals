@@ -1,0 +1,14 @@
+[2026-10-22 19:16:13]  STARTUP      | Type:        | Item:  | Database initialised successfully
+[2026-10-25 18:18:32]  STARTUP      | Type:        | Item:  | Database initialised successfully
+[2026-10-25 18:18:32]  STARTUP      | Type:        | Item:  | Database initialised successfully
+[2026-10-25 18:25:22]  EXPORT       | Type:        | Item:  | CSV saved → exports\items_export_20261025_182522.csv
+[2026-10-27 19:24:31]  STARTUP      | Type:        | Item:  | Database initialised successfully
+[2026-10-27 19:24:32]  STARTUP      | Type:        | Item:  | Database initialised successfully
+[2026-10-27 19:26:41]  EXPORT       | Type:        | Item:  | CSV saved → exports\items_export_20261027_192641.csv
+[2026-10-27 19:28:11]  EXPORT       | Type:        | Item:  | CSV saved → exports\items_export_20261027_192811.csv
+[2026-10-28 23:21:32]  STARTUP      | Type:        | Item:  | Database initialised successfully
+[2026-10-28 23:21:33]  STARTUP      | Type:        | Item:  | Database initialised successfully
+[2026-10-28 23:27:15]  EXPORT       | Type:        | Item:  | CSV saved → exports\items_export_20261028_232715.csv
+[2026-10-28 23:29:20]  EXPORT       | Type:        | Item:  | CSV saved → exports\items_export_20261028_232920.csv
+[2026-10-28 23:29:22]  EXPORT       | Type:        | Item:  | CSV saved → exports\items_export_20261028_232922.csv
+[2026-10-28 23:30:59]  SEARCH       | Type:        | Item:  | Query='Laptop case', Results=1

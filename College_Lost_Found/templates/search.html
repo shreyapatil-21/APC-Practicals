@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}Search Items — College Lost & Found{% endblock %}
+
+{% block content %}
+
+<!-- Search hero panel -->
+<div class="search-hero">
+    <h2>&#128269; Search Campus Items</h2>
+    <p>Search by item name, category, or location</p>
+    <form action="{{ url_for('search') }}" method="GET">
+        <div class="search-form-row">
+            <input type="text" name="q" class="search-input-hero"
+                   placeholder="e.g. Laptop, Library, ID Card..."
+                   value="{{ query|default('') }}" required>
+            <button type="submit" class="btn-search-hero">Search</button>
+        </div>
+    </form>
+</div>
+
+{% if query %}
+    <!-- Result summary -->
+    <div class="page-header">
+        <h2 class="page-title">
+            {% if items %}
+                {{ items|length }} result{{ 's' if items|length != 1 }} for &ldquo;{{ query }}&rdquo;
+            {% else %}
+                No results for &ldquo;{{ query }}&rdquo;
+            {% endif %}
+        </h2>
+        <a href="{{ url_for('search') }}" class="btn btn-secondary">&#215; Clear</a>
+    </div>
+
+    {% if items %}
+        <div class="items-grid">
+            {% for item in items %}
+                <div class="item-card">
+                    <div class="card-strip {{ 'lost' if item['item_type'] == 'Lost' else 'found' }}"></div>
+
+                    <div class="card-body">
+                        <div class="card-header-row">
+                            <h3 class="item-title">{{ item['item_name'] }}</h3>
+                            <div class="badge-group">
+                                <span class="badge {{ 'badge-lost' if item['item_type'] == 'Lost' else 'badge-found' }}">
+                                    {{ item['item_type'] }}
+                                </span>
+                                <span class="badge {{ 'badge-claimed' if item['status'] == 'Claimed' else 'badge-open' }}">
+                                    {{ item['status'] }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="item-meta">
+                            <div class="meta-row">
+                                <span class="meta-icon">&#128197;</span>
+                                <span class="meta-label">Category</span>
+                                <span class="meta-value">{{ item['category'] }}</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-icon">&#128205;</span>
+                                <span class="meta-label">Location</span>
+                                <span class="meta-value">{{ item['location'] }}</span>
+                            </div>
+                            <div class="meta-row">
+                                <span class="meta-icon">&#128336;</span>
+                                <span class="meta-label">Date</span>
+                                <span class="meta-value">{{ item['date'] }}</span>
+                            </div>
+                            {% if item['contact'] %}
+                            <div class="meta-row">
+                                <span class="meta-icon">&#128222;</span>
+                                <span class="meta-label">Contact</span>
+                                <span class="meta-value">{{ item['contact'] }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        {% if item['description'] %}
+                            <div class="card-description">{{ item['description'] }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-actions">
+                        <a href="{{ url_for('item_detail', id=item['id']) }}" class="btn btn-detail">&#128065; View</a>
+                        <a href="{{ url_for('edit', id=item['id']) }}"        class="btn btn-edit">&#9998; Edit</a>
+                        <a href="{{ url_for('mark_claimed', id=item['id']) }}" class="btn btn-claim {{ 'claimed' if item['status'] == 'Claimed' }}">
+                            {{ '&#10003; Claimed' if item['status'] == 'Claimed' else '&#127381; Claim' }}
+                        </a>
+                        <a href="{{ url_for('delete', id=item['id']) }}" class="btn btn-delete"
+                           onclick="return confirm('Delete this report permanently?')">&#128465; Delete</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">&#128269;</div>
+            <h3>No matching items found.</h3>
+            <p>Try a different keyword — item name, category, or location.</p>
+            <div class="empty-cta">
+                <a href="{{ url_for('lost') }}"  class="btn btn-primary">&#128277; Report Lost Item</a>
+                <a href="{{ url_for('found') }}" class="btn btn-secondary">&#9989; Report Found Item</a>
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+    <div class="empty-state" style="padding: 2.5rem;">
+        <div class="empty-state-icon">&#128270;</div>
+        <h3>Start your search above</h3>
+        <p>Type a keyword to search through all reported items on campus.</p>
+    </div>
+{% endif %}
+{% endblock %}

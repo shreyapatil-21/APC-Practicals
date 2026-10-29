@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}{{ item['item_name'] }} — College Lost & Found{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('home') }}" class="back-link">&#8592; Back to Home</a>
+
+<div class="detail-card">
+    <!-- Colour strip -->
+    <div class="card-strip {{ 'lost' if item['item_type'] == 'Lost' else 'found' }}" style="height:8px;"></div>
+
+    <div class="detail-header">
+        <div>
+            <h1 class="detail-title">{{ item['item_name'] }}</h1>
+            <p style="color:var(--text-muted);font-size:.9rem;margin-top:.3rem;">Report #{{ item['id'] }}</p>
+        </div>
+        <div class="badge-group">
+            <span class="badge {{ 'badge-lost' if item['item_type'] == 'Lost' else 'badge-found' }}" style="font-size:.85rem;padding:.35rem .9rem;">
+                {{ item['item_type'] }}
+            </span>
+            <span class="badge {{ 'badge-claimed' if item['status'] == 'Claimed' else 'badge-open' }}" style="font-size:.85rem;padding:.35rem .9rem;">
+                {{ item['status'] }}
+            </span>
+        </div>
+    </div>
+
+    <div class="detail-body">
+        <div class="detail-grid">
+            <div class="detail-field">
+                <span class="detail-field-label">&#128197; Category</span>
+                <span class="detail-field-value">{{ item['category'] }}</span>
+            </div>
+            <div class="detail-field">
+                <span class="detail-field-label">&#128205; Location</span>
+                <span class="detail-field-value">{{ item['location'] }}</span>
+            </div>
+            <div class="detail-field">
+                <span class="detail-field-label">&#128336; Date</span>
+                <span class="detail-field-value">{{ item['date'] }}</span>
+            </div>
+            <div class="detail-field">
+                <span class="detail-field-label">&#128222; Contact</span>
+                <span class="detail-field-value">{{ item['contact'] if item['contact'] else '—' }}</span>
+            </div>
+        </div>
+
+        {% if item['description'] %}
+            <p style="font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:.5rem;">Description</p>
+            <div class="detail-description">{{ item['description'] }}</div>
+        {% endif %}
+
+        <div class="detail-actions">
+            <a href="{{ url_for('mark_claimed', id=item['id']) }}" class="btn btn-claim btn-lg {{ 'claimed' if item['status'] == 'Claimed' }}">
+                {{ '&#10003; Mark as Open' if item['status'] == 'Claimed' else '&#127381; Mark as Claimed' }}
+            </a>
+            <a href="{{ url_for('edit', id=item['id']) }}" class="btn btn-edit btn-lg">&#9998; Edit Report</a>
+            <a href="{{ url_for('delete', id=item['id']) }}" class="btn btn-delete btn-lg"
+               onclick="return confirm('Delete this report permanently?')">&#128465; Delete</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

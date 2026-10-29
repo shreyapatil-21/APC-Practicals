@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}College Lost & Found{% endblock %}</title>
+    <meta name="description" content="College Lost and Found Management System — Report, search and claim lost or found items on campus.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <div class="header-icon">&#127979;</div>
+    <h1>College Lost &amp; Found</h1>
+    <p>Report lost items, report found items and search for items reported on campus.</p>
+</header>
+
+<!-- ===== NAV ===== -->
+<nav>
+    <div class="nav-container">
+        <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}"   class="{{ 'active' if request.endpoint == 'home' }}">&#127968; Home</a></li>
+            <li><a href="{{ url_for('lost') }}"   class="{{ 'active' if request.endpoint == 'lost' }}">&#128277; Report Lost</a></li>
+            <li><a href="{{ url_for('found') }}"  class="{{ 'active' if request.endpoint == 'found' }}">&#9989; Report Found</a></li>
+            <li><a href="{{ url_for('search') }}" class="{{ 'active' if request.endpoint == 'search' }}">&#128269; Search</a></li>
+            <li><a href="{{ url_for('export') }}" class="{{ 'active' if request.endpoint == 'export' }}">&#128190; Export CSV</a></li>
+            <li><a href="{{ url_for('logs') }}"   class="{{ 'active' if request.endpoint == 'logs' }}">&#128221; Activity Logs</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<main>
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-container">
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        <span class="flash-icon">{{ '✅' if category == 'success' else '⚠️' }}</span>
+                        <span>{{ message }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    <p><strong>College Lost &amp; Found Management System</strong> &mdash; Helping students reconnect with their belongings &mdash; Campus Project</p>
+</footer>
+
+</body>
+</html>

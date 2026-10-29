@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Report Lost Item — College Lost & Found{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('home') }}" class="back-link">&#8592; Back to Home</a>
+
+<div class="form-container">
+    <div class="form-banner lost-banner">
+        <span class="form-banner-icon">&#128277;</span>
+        <div>
+            <strong>Report a Lost Item</strong><br>
+            <small>Fill in the details so someone can help return it to you.</small>
+        </div>
+    </div>
+
+    <form action="{{ url_for('lost') }}" method="POST">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="item_name">Item Name <span class="required">*</span></label>
+                <input type="text" id="item_name" name="item_name" class="form-control"
+                       placeholder="e.g. Blue Backpack, HP Laptop" required>
+            </div>
+            <div class="form-group">
+                <label for="category">Category <span class="required">*</span></label>
+                <select id="category" name="category" class="form-control" required>
+                    <option value="">-- Select --</option>
+                    <option value="Electronics">&#128241; Electronics</option>
+                    <option value="Books">&#128218; Books</option>
+                    <option value="Documents">&#128196; Documents</option>
+                    <option value="Accessories">&#128084; Accessories</option>
+                    <option value="Clothing">&#128085; Clothing</option>
+                    <option value="ID Card">&#128100; ID Card</option>
+                    <option value="Keys">&#128273; Keys</option>
+                    <option value="Other">&#128230; Other</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="location">Location Lost <span class="required">*</span></label>
+                <input type="text" id="location" name="location" class="form-control"
+                       placeholder="e.g. Library 2nd Floor" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Date Lost <span class="required">*</span></label>
+                <input type="date" id="date" name="date" class="form-control" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="contact">Your Contact Info (Optional)</label>
+            <input type="text" id="contact" name="contact" class="form-control"
+                   placeholder="e.g. Roll No. 22CS045 or email/phone">
+            <p class="form-hint">So the finder can reach you directly.</p>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description (Optional)</label>
+            <textarea id="description" name="description" class="form-control"
+                      placeholder="Describe the item — colour, brand, markings, what was inside..."></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-full btn-lg">&#128277; Submit Lost Item Report</button>
+            <a href="{{ url_for('home') }}" class="btn btn-secondary btn-lg">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

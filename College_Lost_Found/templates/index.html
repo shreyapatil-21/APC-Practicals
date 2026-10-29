@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block title %}Home — College Lost & Found{% endblock %}
+
+{% block content %}
+
+<!-- ===== STATS DASHBOARD ===== -->
+<div class="stats-grid">
+    <div class="stat-card total">
+        <div class="stat-icon">&#128193;</div>
+        <div class="stat-info">
+            <span class="stat-num">{{ stats.total }}</span>
+            <span class="stat-label">Total Reports</span>
+        </div>
+    </div>
+    <div class="stat-card lost-s">
+        <div class="stat-icon">&#128277;</div>
+        <div class="stat-info">
+            <span class="stat-num">{{ stats.lost }}</span>
+            <span class="stat-label">Lost Items</span>
+        </div>
+    </div>
+    <div class="stat-card found-s">
+        <div class="stat-icon">&#9989;</div>
+        <div class="stat-info">
+            <span class="stat-num">{{ stats.found }}</span>
+            <span class="stat-label">Found Items</span>
+        </div>
+    </div>
+    <div class="stat-card claimed-s">
+        <div class="stat-icon">&#127881;</div>
+        <div class="stat-info">
+            <span class="stat-num">{{ stats.claimed }}</span>
+            <span class="stat-label">Claimed</span>
+        </div>
+    </div>
+</div>
+
+<!-- ===== PAGE HEADER ===== -->
+<div class="page-header">
+    <h2 class="page-title">
+        {% if filter_category != 'All' %}
+            {{ filter_category }} Items
+        {% elif filter_type != 'All' %}
+            {{ filter_type }} Items
+        {% else %}
+            All Reported Items
+        {% endif %}
+    </h2>
+    {% if filter_type != 'All' or filter_category != 'All' %}
+        <a href="{{ url_for('home') }}" class="btn btn-secondary" style="font-size:0.8rem; padding:0.4rem 0.9rem;">&#10005; Clear Filters</a>
+    {% endif %}
+</div>
+
+<!-- ===== TYPE FILTER BAR ===== -->
+<div class="filter-section">
+    <div class="filter-bar">
+        <span class="filter-label">Type:</span>
+        <a href="{{ url_for('home', category=filter_category if filter_category != 'All' else None) }}"
+           class="filter-btn {{ 'active-all' if filter_type == 'All' }}">All ({{ stats.total }})</a>
+        <a href="{{ url_for('home', filter='Lost', category=filter_category if filter_category != 'All' else None) }}"
+           class="filter-btn {{ 'active-lost' if filter_type == 'Lost' }}">&#128277; Lost ({{ stats.lost }})</a>
+        <a href="{{ url_for('home', filter='Found', category=filter_category if filter_category != 'All' else None) }}"
+           class="filter-btn {{ 'active-found' if filter_type == 'Found' }}">&#9989; Found ({{ stats.found }})</a>
+    </div>
+
+    <!-- ===== CATEGORY FILTER BAR ===== -->
+    <div class="filter-bar category-filter-bar">
+        <span class="filter-label">Category:</span>
+
+        {# Category icons mapping #}
+        {% set cat_icons = {
+            'Electronics': '&#128241;',
+            'Books':       '&#128218;',
+            'Documents':   '&#128196;',
+            'Accessories': '&#128084;',
+            'Clothing':    '&#128085;',
+            'ID Card':     '&#128100;',
+            'Keys':        '&#128273;',
+            'Other':       '&#128230;'
+        } %}
+
+        <a href="{{ url_for('home', filter=filter_type if filter_type != 'All' else None) }}"
+           class="filter-btn cat-btn {{ 'cat-active' if filter_category == 'All' }}">All</a>
+
+        {% for cat in categories %}
+            {% if cat_counts[cat] > 0 %}
+                <a href="{{ url_for('home', category=cat, filter=filter_type if filter_type != 'All' else None) }}"
+                   class="filter-btn cat-btn {{ 'cat-active' if filter_category == cat }}">
+                    {{ cat_icons[cat] }} {{ cat }}
+                    <span class="cat-count">{{ cat_counts[cat] }}</span>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+<!-- ===== ITEMS GRID ===== -->
+{% if items %}
+    <div class="items-grid">
+        {% for item in items %}
+            <div class="item-card {{ 'lost-card' if item['item_type'] == 'Lost' else 'found-card' }}">
+                <!-- colour accent strip -->
+                <div class="card-strip {{ 'lost' if item['item_type'] == 'Lost' else 'found' }}"></div>
+
+                <div class="card-body">
+                    <div class="card-header-row">
+                        <h3 class="item-title">{{ item['item_name'] }}</h3>
+                        <div class="badge-group">
+                            <span class="badge {{ 'badge-lost' if item['item_type'] == 'Lost' else 'badge-found' }}">
+                                {{ item['item_type'] }}
+                            </span>
+                            <span class="badge {{ 'badge-claimed' if item['status'] == 'Claimed' else 'badge-open' }}">
+                                {{ item['status'] }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="item-meta">
+                        <div class="meta-row">
+                            <span class="meta-icon">&#128197;</span>
+                            <span class="meta-label">Category</span>
+                            <span class="meta-value">{{ item['category'] }}</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-icon">&#128205;</span>
+                            <span class="meta-label">Location</span>
+                            <span class="meta-value">{{ item['location'] }}</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-icon">&#128336;</span>
+                            <span class="meta-label">Date</span>
+                            <span class="meta-value">{{ item['date'] }}</span>
+                        </div>
+                        {% if item['contact'] %}
+                        <div class="meta-row">
+                            <span class="meta-icon">&#128222;</span>
+                            <span class="meta-label">Contact</span>
+                            <span class="meta-value">{{ item['contact'] }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {% if item['description'] %}
+                        <div class="card-description">{{ item['description'] }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="card-actions">
+                    <a href="{{ url_for('item_detail', id=item['id']) }}" class="btn btn-detail">&#128065; View</a>
+                    <a href="{{ url_for('edit', id=item['id']) }}"        class="btn btn-edit">&#9998; Edit</a>
+                    <a href="{{ url_for('mark_claimed', id=item['id']) }}" class="btn btn-claim {{ 'claimed' if item['status'] == 'Claimed' }}">
+                        {{ '&#10003; Claimed' if item['status'] == 'Claimed' else '&#127381; Claim' }}
+                    </a>
+                    <a href="{{ url_for('delete', id=item['id']) }}" class="btn btn-delete"
+                       onclick="return confirm('Delete this report permanently?')">&#128465; Delete</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <div class="empty-state-icon">&#128269;</div>
+        <h3>No items found</h3>
+        {% if filter_type != 'All' or filter_category != 'All' %}
+            <p>No items match the selected filters. Try a different combination.</p>
+            <div class="empty-cta">
+                <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg">&#10005; Clear Filters</a>
+            </div>
+        {% else %}
+            <p>Be the first to report a lost or found item on campus.</p>
+            <div class="empty-cta">
+                <a href="{{ url_for('lost') }}"  class="btn btn-primary btn-lg">&#128277; Report Lost Item</a>
+                <a href="{{ url_for('found') }}" class="btn btn-secondary btn-lg">&#9989; Report Found Item</a>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+{% endblock %}

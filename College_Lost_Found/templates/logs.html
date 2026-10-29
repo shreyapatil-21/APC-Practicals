@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Activity Logs — College Lost & Found{% endblock %}
+
+{% block content %}
+<a href="{{ url_for('home') }}" class="back-link">&#8592; Back to Home</a>
+
+<div class="page-header">
+    <h2 class="page-title">&#128221; Activity Logs</h2>
+    <a href="{{ url_for('export') }}" class="btn btn-primary">&#128190; Export CSV</a>
+</div>
+
+<div style="background:rgba(255,255,255,0.06); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.12); border-radius:var(--r-lg); padding:1.5rem;">
+
+    {% if entries %}
+        <p style="color:rgba(255,255,255,0.5); font-size:0.8rem; margin-bottom:1rem;">
+            Showing {{ entries|length }} most recent log entries (newest first)
+        </p>
+        <div style="display:flex; flex-direction:column; gap:0.4rem;">
+            {% for entry in entries %}
+                {% set color = '#6ee7b7' if 'REPORT' in entry else
+                               '#fda4af' if 'DELETE' in entry else
+                               '#a5b4fc' if 'SEARCH' in entry else
+                               '#fcd34d' if 'EDIT'   in entry else
+                               '#c4b5fd' if 'STATUS' in entry else
+                               '#67e8f9' if 'EXPORT' in entry else
+                               'rgba(255,255,255,0.6)' %}
+                <div style="
+                    font-family: 'Courier New', monospace;
+                    font-size: 0.82rem;
+                    padding: 0.55rem 1rem;
+                    background: rgba(0,0,0,0.25);
+                    border-radius: 6px;
+                    border-left: 3px solid {{ color }};
+                    color: {{ color }};
+                    word-break: break-all;
+                ">{{ entry }}</div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state" style="padding:3rem;">
+            <div class="empty-state-icon">&#128221;</div>
+            <h3>No activity recorded yet</h3>
+            <p>Start reporting lost or found items to see logs here.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
